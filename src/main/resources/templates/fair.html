@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    
+</head>
+
+<div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Graph</th>
+        </tr>
+        <tr th:each="metric,iter : ${metrics}">
+            <td th:text="${#strings.replace(metric.id,'/',' ')}"></td>
+            <td th:text="'F, A, I, R = ' + ${#strings.toString(metric.scores)}"></td>
+            <td th:class="fairmetrics" th:id="'fairmetrics'+${iter.index}" th:data-fair-metrics="${#strings.toString(metric.scores)}"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var lazyloadImages;
+
+        if ("IntersectionObserver" in window) {
+            lazyloadImages = document.querySelectorAll(".lazy");
+            var imageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var image = entry.target;
+                        image.src = image.dataset.src;
+                        image.classList.remove("lazy");
+                        imageObserver.unobserve(image);
+                    }
+                });
+            });
+
+            lazyloadImages.forEach(function(image) {
+                imageObserver.observe(image);
+            });
+        } else {
+            var lazyloadThrottleTimeout;
+            lazyloadImages = document.querySelectorAll(".lazy");
+
+            function lazyload() {
+                if (lazyloadThrottleTimeout) {
+                    clearTimeout(lazyloadThrottleTimeout);
+                }
+
+                lazyloadThrottleTimeout = setTimeout(function() {
+                    var scrollTop = window.pageYOffset;
+                    lazyloadImages.forEach(function(img) {
+                        if (img.offsetTop < (window.innerHeight + scrollTop)) {
+                            img.src = img.dataset.src;
+                            img.classList.remove('lazy');
+                        }
+                    });
+                    if (lazyloadImages.length == 0) {
+                        document.removeEventListener("scroll", lazyload);
+                        window.removeEventListener("resize", lazyload);
+                        window.removeEventListener("orientationChange", lazyload);
+                    }
+                }, 20);
+            }
+
+            document.addEventListener("scroll", lazyload);
+            window.addEventListener("resize", lazyload);
+            window.addEventListener("orientationChange", lazyload);
+        }
+    })
+</script>
+
+<script src="https://d3js.org/d3-array.v2.min.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/d3-format.v1.min.js"></script>
+<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+<script src="https://d3js.org/d3-time.v1.min.js"></script>
+<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
+<script src="https://d3js.org/d3-scale.v3.min.js"></script>
+<script type="text/javascript" th:src="@{/js/bundle.js}"></script>
+
+<style>
+html, body {
+  margin: 0;
+  height: 100%
+}
+
+.bar {
+  fill: #0080FF
+}
+
+.bar:hover {
+  fill: #003366
+}
+</style>
+
+</html>
