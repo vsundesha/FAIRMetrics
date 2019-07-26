@@ -5,10 +5,13 @@
  */
 package com.mycompany.mvcvue.service;
 
+import com.mycompany.mvcvue.models.Metric;
+import java.util.List;
+
 /**
  *
  * @author Vicky Sundesha <vicky.sundesha@bsc.es>
  */
-public interface MetricsRepositoryCustom {
+public interface MetricsRepositoryCustom {   
     
 }

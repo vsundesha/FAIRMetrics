@@ -4,32 +4,105 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
-<div>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Score</th>
-            <th>Graph</th>
-        </tr>
-        <tr th:each="metric,iter : ${metrics}">
-            <td th:text="${#strings.replace(metric.id,'/',' ')}"></td>
-            <td th:text="'F, A, I, R = ' + ${#strings.toString(metric.scores)}"></td>
-            <td th:class="fairmetrics" th:id="'fairmetrics'+${iter.index}" th:data-fair-metrics="${#strings.toString(metric.scores)}"></td>
-        </tr>
-    </table>
-</div>
+
+<body>
+    <div class="w3-row">
+        <div class="w3-col m3 l2">
+            <ul class="w3-ul">
+                <li th:each="metric,iter : ${metricPage.content}" ><a th:text="${#strings.replace(metric.id,'/',' ')}" th:href="'#' + ${#strings.toString(metric.id)}"></a></li>
+            </ul>
+        </div>
+        <div class="w3-col m9 l10">
+            <table class="w3-table w3-centered">
+                <tr>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Metrics</th>
+                    <th>Overall</th>
+                </tr>
+                <tr th:each="metric,iter : ${metricPage.content}" th:id="${#strings.toString(metric.id)}">
+                    <td th:text="${#strings.replace(metric.id,'/',' ')}"></td>
+                    <td th:text="'F A I R : ' + ${#strings.toString(metric.scores)}"></td>
+                    <td height="350" width="25%">
+                        <div  th:class="fairmetrics" th:id="'fairmetrics'+${iter.index}" th:data-fair-metrics="${#strings.toString(metric.scores)}"></div>
+                    </td>
+                    <td width="25%">
+                        <div  th:class="fairmetrics" th:id="'fairgauge'+${iter.index}" th:data-fair-metrics="${#strings.toString(metric.scores)}"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="w3-center">
+                <div  class="w3-bar">
+                    <!-- first page -->
+                    <th:block  th:if="${metricPage.hasPrevious()}">
+                        <a class="w3-button" th:href="@{|?page=${0}&size=${metricPage.size}|}">&lsaquo;</a>
+                    </th:block >
+        
+                    <!-- has previous -->
+                    <th:block  th:if="${metricPage.hasPrevious()}">
+                        <a class="w3-button" th:href="@{|?page=${metricPage.number-1}&size=${metricPage.size}|}">&laquo;</a>
+                    </th:block >
+        
+                    <!-- 5 before current page -->
+                    <th:block th:each="i : ${#numbers.sequence( metricPage.number -5, metricPage.number, 1)}">
+                        <th:block th:if="${i>=0 and i!=metricPage.number}">
+                                <a class="w3-button" th:href="@{|?page=${i}&size=${metricPage.size}|}">[[${i}]]</a>    
+                        </th:block>
+                    </th:block>
+                    
+                    <!-- current page -->
+                    <a class="w3-button w3-green">[[${metricPage.number}]]</a>
+        
+                    <!-- 5 after current page -->
+                    <th:block th:each="i : ${#numbers.sequence( metricPage.number, metricPage.number + 5, 1)}">
+                        <th:block th:if="${i<=metricPage.totalPages-1 and i!=metricPage.number}">
+                                <a class="w3-button" th:href="@{|?page=${i}&size=${metricPage.size}|}">[[${i}]]</a>    
+                        </th:block>
+                    </th:block>
+                    
+                    <!-- has next -->
+                    <th:block  th:if="${metricPage.hasNext()}">
+                        <a class="w3-button" th:href="@{|?page=${metricPage.number+1}&size=${metricPage.size}|}">&raquo;</a>
+                    </th:block >
+        
+                        <!-- last page -->
+                    
+                    <th:block  th:if="${metricPage.number != metricPage.totalPages-1}">
+                        <a class="w3-button" th:href="@{|?page=${metricPage.totalPages-1}&size=${metricPage.size}|}">&rsaquo;</a>
+                    </th:block >
+        
+                </div>
+            </div>
+            <th:block th:if="${paginationError}">
+                <div>
+                    <div class="w3-panel w3-pale-yellow w3-leftbar w3-border-yellow">
+                        <h3>Warning!</h3>
+                        <p th:text="${paginationError}"></p>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </div> 
+    
+        
+    
+    
+    
+     
+</body>
+
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var lazyloadImages;
 
         if ("IntersectionObserver" in window) {
             lazyloadImages = document.querySelectorAll(".lazy");
-            var imageObserver = new IntersectionObserver(function(entries, observer) {
-                entries.forEach(function(entry) {
+            var imageObserver = new IntersectionObserver(function (entries, observer) {
+                entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         var image = entry.target;
                         image.src = image.dataset.src;
@@ -39,7 +112,7 @@
                 });
             });
 
-            lazyloadImages.forEach(function(image) {
+            lazyloadImages.forEach(function (image) {
                 imageObserver.observe(image);
             });
         } else {
@@ -51,9 +124,9 @@
                     clearTimeout(lazyloadThrottleTimeout);
                 }
 
-                lazyloadThrottleTimeout = setTimeout(function() {
+                lazyloadThrottleTimeout = setTimeout(function () {
                     var scrollTop = window.pageYOffset;
-                    lazyloadImages.forEach(function(img) {
+                    lazyloadImages.forEach(function (img) {
                         if (img.offsetTop < (window.innerHeight + scrollTop)) {
                             img.src = img.dataset.src;
                             img.classList.remove('lazy');
@@ -73,29 +146,7 @@
         }
     })
 </script>
-
-<script src="https://d3js.org/d3-array.v2.min.js"></script>
-<script src="https://d3js.org/d3-color.v1.min.js"></script>
-<script src="https://d3js.org/d3-format.v1.min.js"></script>
-<script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-<script src="https://d3js.org/d3-time.v1.min.js"></script>
-<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
-<script src="https://d3js.org/d3-scale.v3.min.js"></script>
-<script type="text/javascript" th:src="@{/js/bundle.js}"></script>
-
-<style>
-html, body {
-  margin: 0;
-  height: 100%
-}
-
-.bar {
-  fill: #0080FF
-}
-
-.bar:hover {
-  fill: #003366
-}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.2/c3.css">
+<script type="text/javascript" th:src="@{/js/bundle.js}"></script> 
 
 </html>

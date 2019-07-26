@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -20,19 +21,8 @@ import org.springframework.stereotype.Repository;
  * @author vsundesh
  */
 
-public class MetricsRepositoryImpl implements MetricsRepositoryCustom{
+public class MetricsRepositoryImpl implements MetricsRepositoryCustom {
 
     @Autowired
-    private MongoTemplate mt; 
-    
-    public List<Metric> getMetrics(){
-        List <Metric> metrics = new ArrayList<>();
-
-        
-        metrics = mt.findAll(Metric.class);
-        
-        return metrics;
-    }
-    
-    
+    private MongoTemplate mt;     
 }

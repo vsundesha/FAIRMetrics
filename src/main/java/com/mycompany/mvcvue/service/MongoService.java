@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package com.mycompany.mvcvue.service;
-
 import com.mycompany.mvcvue.models.Metric;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Service;
 public class MongoService {
     
     @Autowired
-    MetricsRepositoryImpl mri;
-    public List<Metric> getMetrics(){
-        return mri.getMetrics();
-    }
+    MetricsRepository mr;
     
+    public Page<Metric> getMetrics(Pageable pageable){
+        return mr.findAll(pageable);
+    }
 }

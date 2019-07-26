@@ -2,21 +2,17 @@ package com.mycompany.mvcvue;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import com.mycompany.mvcvue.models.Metric;
 import com.mycompany.mvcvue.service.MongoService;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +34,25 @@ public class ApplicationController {
     @Autowired
     MongoService ms;
     
+    public static final int defaultPage = 0;
+    public static final int defaultSize = 5;
+    
     @GetMapping("/fair")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) throws JsonProcessingException, IOException {
+    public String greeting(
+            @PageableDefault(page=defaultPage,size=defaultSize) Pageable pageable,
+            @RequestParam(name="filter",defaultValue = "", required = false ) String filter,
+            Model model) throws JsonProcessingException, IOException { 
+
         
+        Page<Metric> metricPage = ms.getMetrics(pageable);
+        if(metricPage.hasContent()){
+            model.addAttribute("metricPage",metricPage);
+        } else {
+            Page<Metric> metricPageReset = ms.getMetrics(PageRequest.of(defaultPage, defaultSize));
+            model.addAttribute("metricPage",metricPageReset);
+            model.addAttribute("paginationError", "Pager out of bound");
+        }
         
-        
-        List<Metric> metrics = ms.getMetrics();
-        model.addAttribute("name", name);
-        model.addAttribute("metrics",metrics);
         return "fair";
     }
 }

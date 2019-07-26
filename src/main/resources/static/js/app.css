@@ -1,0 +1,33 @@
+.oeb-legend .legend-scale ul li {
+    /* display: block; */
+    float: left;
+    /* width: 15%; */
+    /* margin-bottom: 2%; */
+    text-align: left;
+    margin-right: 10px;
+    font-size: 80%;
+    list-style: none;
+}
+
+.oeb-legend ul.legend-labels {
+    margin: 0%
+}
+
+.oeb-legend ul.legend-labels li span {
+    /* display: block; */
+    float: left;
+    height: 12px;
+    width: 12px;
+    margin-top: 4px;
+    margin-right: 4px;
+}
+
+.oeb-legend .legend-source {
+    /* font-size: 70%; */
+    color: #999;
+    clear: both;
+}
+
+.oeb-legend a {
+    color: #777;
+}

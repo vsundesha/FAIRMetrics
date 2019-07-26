@@ -19,6 +19,9 @@ public class Metric {
     public String mongoid;
     @Field("id")
     public String id;
+    public String name;
+    public String type;
+    public String version;
     public Object F;
     public Object A;
     public Object I;
