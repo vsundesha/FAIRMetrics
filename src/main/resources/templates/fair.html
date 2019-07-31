@@ -22,6 +22,9 @@
 
         <div class="w3-col m3 l2">
             <!-- <div th:replace="fragments/header-fair-metrics :: header-fair-metrics"></div> -->
+            <div class="w3-bar-block">
+                    <button class="w3-bar-item w3-large w3-button" href="https://dev-openebench.bsc.es/fair/">Fair metrics</button>
+            </div>
             <form id="filter-form" class="w3-container">
                 <p>
                     <label>Filter</label>
@@ -45,7 +48,6 @@
                 <tr>
                     <th>Tool</th>
                     <th>FAIR Metrics</th>
-                    <!-- <th>Overall</th> -->
                 </tr>
                 <tr th:each="metric,iter : ${metricPage.content}" th:id="${#strings.toString(metric.id)}">
                     <td>

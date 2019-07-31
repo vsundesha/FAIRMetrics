@@ -3,7 +3,6 @@ com/mycompany/mvcvue/service/MetricsRepositoryCustom.class
 com/mycompany/mvcvue/service/MetricsRepositoryImpl.class
 com/mycompany/mvcvue/FairController.class
 com/mycompany/mvcvue/models/Metric.class
-com/mycompany/mvcvue/OebController.class
 com/mycompany/mvcvue/Application.class
 com/mycompany/mvcvue/service/MetricsRepository.class
 com/mycompany/mvcvue/service/MongoService.class
