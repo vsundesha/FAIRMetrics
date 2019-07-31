@@ -1,0 +1,47 @@
+<th:block th:fragment="header-fair-metrics-paginator(pagePaginator,pageNumbers)">
+    <div class="w3-center">
+        <div class="w3-bar">
+            <!-- first page -->
+            <th:block th:if="${pagePaginator.hasPrevious()}">
+                <a class="w3-button" th:href="@{|?page=${0}&size=${pagePaginator.size}|}">&laquo;</a>
+            </th:block>
+
+            <!-- has previous -->
+            <th:block th:if="${pagePaginator.hasPrevious()}">
+                <a class="w3-button" th:href="@{|?page=${pagePaginator.number-1}&size=${pagePaginator.size}|}">&lsaquo;</a>
+            </th:block>
+
+            <th:block th:if="${pageNumbers}">
+                <!-- 5 before current page -->
+                <th:block th:each="i : ${#numbers.sequence( pagePaginator.number -5, pagePaginator.number, 1)}">
+                    <th:block th:if="${i>=0 and i!=pagePaginator.number}">
+                            <a class="w3-button" th:href="@{|?page=${i}&size=${pagePaginator.size}|}">[[${i}]]</a>    
+                    </th:block>
+                </th:block>
+                
+                <!-- current page -->
+                <a class="w3-button w3-blue">[[${pagePaginator.number}]]</a>
+
+                <!-- 5 after current page -->
+                <th:block th:each="i : ${#numbers.sequence( pagePaginator.number, pagePaginator.number + 5, 1)}">
+                    <th:block th:if="${i<=pagePaginator.totalPages-1 and i!=pagePaginator.number}">
+                            <a class="w3-button" th:href="@{|?page=${i}&size=${pagePaginator.size}|}">[[${i}]]</a>    
+                    </th:block>
+                </th:block>
+
+            </th:block>
+            
+            <!-- has next -->
+            <th:block  th:if="${pagePaginator.hasNext()}">
+                <a class="w3-button" th:href="@{|?page=${pagePaginator.number+1}&size=${pagePaginator.size}|}">&rsaquo;</a>
+            </th:block >
+
+                <!-- last page -->
+            
+            <th:block  th:if="${pagePaginator.number != pagePaginator.totalPages-1}">
+                <a class="w3-button" th:href="@{|?page=${pagePaginator.totalPages-1}&size=${pagePaginator.size}|}">&raquo;</a>
+            </th:block >
+
+        </div>
+    </div>
+</th:block>

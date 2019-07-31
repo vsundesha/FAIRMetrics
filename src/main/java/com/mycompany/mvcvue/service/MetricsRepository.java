@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MetricsRepository extends MetricsRepositoryCustom, MongoRepository<Metric, String>{
 
-       @Override
        Page<Metric> findAll(Pageable pageable);
+       
+       Page<Metric> findByName(String name,Pageable pageable);
 }

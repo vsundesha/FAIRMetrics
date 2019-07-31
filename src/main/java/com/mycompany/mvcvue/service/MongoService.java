@@ -24,4 +24,8 @@ public class MongoService {
     public Page<Metric> getMetrics(Pageable pageable){
         return mr.findAll(pageable);
     }
+    
+    public Page<Metric> getMetricByName(String name, Pageable pageable){
+        return mr.findByName(name, pageable);
+    }
 }

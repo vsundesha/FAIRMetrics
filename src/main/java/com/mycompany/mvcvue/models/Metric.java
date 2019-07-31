@@ -13,10 +13,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
  *
  * @author Vicky Sundesha <vicky.sundesha@bsc.es>
  */
+//@Entity
+//@Data
 @Document (collection="metrics")
 public class Metric {
     @Field("_id")
-    public String mongoid;
+    public  String mongoid;
     @Field("id")
     public String id;
     public String name;
