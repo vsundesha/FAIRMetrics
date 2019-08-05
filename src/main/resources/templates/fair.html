@@ -57,8 +57,8 @@
                             <p>More info</p>
                         </a>
                     </td>
-                    <td height="350" width="50%">
-                        <div  th:class="fairmetrics" th:id="'fairmetrics'+${iter.index}" th:data-fair-metrics="${#strings.toString(metric.scores)}"></div>
+                    <td>
+                        <fair-metrics size="100"  th:data-fair-metrics="${#strings.toString(metric.scores)}" ></fair-metrics>
                     </td>
                 </tr>
             </table>
@@ -154,6 +154,6 @@
 </script>
 
 <!-- this loads the bundle js for FAIR Metrics charts -->
-<script type="text/javascript" th:src="@{/js/bundle.js}"></script> 
+<script type="text/javascript" th:src="@{/js/fairwidget.js}"></script> 
 
 </html>
