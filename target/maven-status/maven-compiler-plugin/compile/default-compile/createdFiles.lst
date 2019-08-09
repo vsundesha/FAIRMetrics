@@ -1,6 +1,5 @@
-com/mycompany/mvcvue/service/MetricsRepositoryCustom.class
 com/mycompany/mvcvue/service/MongoService.class
-com/mycompany/mvcvue/OebController.class
+com/mycompany/mvcvue/service/MetricsRepositoryCustom.class
 com/mycompany/mvcvue/FairController.class
 com/mycompany/mvcvue/service/MetricsRepository.class
 com/mycompany/mvcvue/config/WebConfig.class

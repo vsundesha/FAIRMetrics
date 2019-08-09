@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author Vicky Sundesha <vicky.sundesha@bsc.es>
  */
 @Controller
-@RequestMapping("/fair")
+@RequestMapping("/")
 public class FairController {
 
     @Autowired

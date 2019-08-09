@@ -1,9 +1,8 @@
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/service/MetricsRepository.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/Application.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/FairController.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/service/MetricsRepositoryImpl.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/service/MetricsRepositoryCustom.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/OebController.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/models/Metric.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/config/WebConfig.java
-/home/vsundesh/NetBeansProjects/MVCVUE/src/main/java/com/mycompany/mvcvue/service/MongoService.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/service/MetricsRepository.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/Application.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/config/WebConfig.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/service/MetricsRepositoryImpl.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/models/Metric.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/service/MetricsRepositoryCustom.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/service/MongoService.java
+/Users/vicky/Documents/work/FAIRMetrics/src/main/java/com/mycompany/mvcvue/FairController.java

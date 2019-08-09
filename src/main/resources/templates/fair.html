@@ -2,20 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Fair Metrics</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fair Metrics</title> 
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.2/c3.css">
 </head>
 
 
 
 <body>
-    <div style="background-color: blanchedalmond; padding: 20px; text-align: center; border-left: 4px yellow solid;">
-        <p><b>NOTICE : </b>This service will be unavailable from <b>Monday, 5th of August, 15.00 CEST</b> until
-            <b>Thursday, 8th of August, 18.00 CEST</b> due to system maintenance. We apologize for the inconvenience.
-        </p>
-    </div>
+   
     <!-- <div th:replace="fragments/header :: header"></div> -->
 
     <div class="w3-row">
@@ -58,7 +55,8 @@
                         </a>
                     </td>
                     <td>
-                        <fair-metrics size="100"  th:data-fair-metrics="${#strings.toString(metric.scores)}" ></fair-metrics>
+                        <fair-metrics width="50%"  th:data-fair-metrics="${#strings.toString(metric.scores)}" ></fair-metrics>
+                    
                     </td>
                 </tr>
             </table>

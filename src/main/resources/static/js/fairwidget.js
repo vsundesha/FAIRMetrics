@@ -1,1 +1,157 @@
-class FairMetrics extends HTMLElement{constructor(){super();const t=this.metrics;if(t&&Array.isArray(JSON.parse(t))&&4==JSON.parse(t).length){const e=JSON.parse(t),s=this.size,o=document.createElementNS("http://www.w3.org/2000/svg","svg");o.setAttribute("xmlns","http://www.w3.org/2000/svg"),o.setAttribute("height",s),o.setAttribute("width",2.5*s);let n=s,r=0,a=0,i=n-n/7;const l="black";o.innerHTML=`\n\t\t<defs>\n\t\t\t<LinearGradient id="F" x1="0%" y1="100%" x2="0%" y2="0%">\n\t\t\t\t<stop offset="${63*e[0]+20}%"   stop-color="#06aed5" />\n\t\t\t\t<stop offset="${63*e[0]+20}%" stop-color="#eaeaea" />\n\t\t\t</LinearGradient>\n\t\t</defs>\n\t\t<defs>\n\t\t\t<LinearGradient id="A" x1="0%" y1="100%" x2="0%" y2="0%">\n\t\t\t\t<stop offset="${63*e[1]+20}%"   stop-color="#f0c808" />\n\t\t\t\t<stop offset="${63*e[1]+20}%" stop-color="#eaeaea" />\n\t\t\t</LinearGradient>\n\t\t</defs>\n\t\t<defs>\n\t\t\t<LinearGradient id="I" x1="0%" y1="100%" x2="0%" y2="0%">\n\t\t\t\t<stop offset="${63*e[2]+20}%"   stop-color="#59cd90" />\n\t\t\t\t<stop offset="${63*e[2]+20}%" stop-color="#eaeaea" />\n\t\t\t</LinearGradient>\n\t\t</defs>\n\t\t<defs>\n\t\t\t<LinearGradient id="R" x1="0%" y1="100%" x2="0%" y2="0%">\n\t\t\t\t<stop offset="${63*e[3]+20}%"   stop-color="#e23b49" />\n\t\t\t\t<stop offset="${63*e[3]+20}%" stop-color="#eaeaea" />\n\t\t\t</LinearGradient>\n\t\t</defs>\n\t\t\t\t<text x=${a} y=${i} font-size=${n} fill="url(#F)" stroke=${l} stroke-width=${r} >F</text>\n\t\t\t\t<text x=${a+.5*s} y=${i} font-size=${n} fill="url(#A)" stroke=${l} stroke-width=${r}>A</text>\n\t\t\t\t<text x=${a+1.25*s} y=${i} font-size=${n} fill="url(#I)" stroke=${l} stroke-width=${r}>I</text>\n\t\t\t\t<text x=${a+1.6*s} y=${i} font-size=${n} fill="url(#R)" stroke=${l} stroke-width=${r}>R</text>\n\n\t\t\t`,this.attachShadow({mode:"open"}).appendChild(o)}}get metrics(){return this.getAttribute("data-fair-metrics")||""}get size(){return this.getAttribute("size")||""}connectedCallback(){console.log("Custom chart element added to page.")}disconnectedCallback(){console.log("Custom chart element removed from page.")}adoptedCallback(){console.log("Custom chart element moved to new page.")}attributeChangedCallback(t,e,s){console.log("Custom chart element attributes changed.")}}customElements.define("fair-metrics",FairMetrics);
+class FairMetrics extends HTMLElement {
+	constructor() {
+		super();
+
+		//get data
+		const data = this.metrics;
+		if (
+			data &&
+			Array.isArray(JSON.parse(data)) &&
+			JSON.parse(data).length == 4
+		) {
+			const metricsData = JSON.parse(data);
+
+			const width = this.width;
+			
+
+			const fcolor = "#06aed5";
+			const acolor = "#f0c808";
+			const icolor = "#59cd90";
+			const rcolor = "#e23b49";
+			const nullcolor = "#eaeaea";
+
+			const findable = `<tspan style='color:${fcolor}'>Findable</tspan> : ${metricsData[0]*100}%`;
+			const accessible = `<tspan style='color:${acolor}'>Accessible</tspan> : ${metricsData[1]*100}%`;
+			const interoperable = `<tspan style='color:${icolor}'>Interoperable</tspan> : ${metricsData[2]*100}%`;
+			const reusable = `<tspan style='color:${rcolor}'>Reusable</tspan> : ${metricsData[3]*100}%`;
+
+			//define tooltip
+			const widgetTooltip = document.createElement('svg');
+			widgetTooltip.setAttribute("id","tooltip");
+			widgetTooltip.setAttribute("display","none");
+			widgetTooltip.setAttribute("style","position:absolute; display:none;");
+	
+			//define container
+			const widgetContainer = document.createElementNS("http://www.w3.org/2000/svg",'svg');
+			const text = `
+			<p>
+			${findable}<br>
+			${accessible}<br>
+			${interoperable}<br>
+			${reusable}<br>
+			</p>`
+			widgetContainer.setAttribute("width",width);
+			//overflow visible for tool
+			widgetContainer.style.overflow ="hidden"
+			widgetContainer.addEventListener('mousemove', e => showTooltip(e, text));
+			
+			
+			widgetContainer.addEventListener('mouseout', e => hideTooltip());
+			//Varis from browser to browser !!!!! chrome works best with 0 0 50 50
+			widgetContainer.setAttribute("viewBox", "0 18 50 13");
+			widgetContainer.style.backgroundColor="white"
+
+			
+			
+			widgetContainer.innerHTML=`
+			
+			<defs>
+				<LinearGradient id="F" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="${metricsData[0]*64+19}%" stop-color="${fcolor}" />
+					<stop offset="${metricsData[0]*64+19}%" stop-color="${nullcolor}" />
+				</LinearGradient>
+			</defs>
+			<defs>
+				<LinearGradient id="A" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="${metricsData[1]*64+19}%" stop-color="${acolor}" />
+					<stop offset="${metricsData[1]*64+19}%" stop-color="${nullcolor}" />
+				</LinearGradient>
+			</defs>
+			<defs>
+				<LinearGradient id="I" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="${metricsData[2]*64+19}%" stop-color="${icolor}" />
+					<stop offset="${metricsData[2]*64+19}%" stop-color="${nullcolor}" />
+				</LinearGradient>
+			</defs>
+			<defs>
+				<LinearGradient id="R" x1="0%" y1="100%" x2="0%" y2="0%">
+					<stop offset="${metricsData[3]*64+19}%" stop-color="${rcolor}" />
+					<stop offset="${metricsData[3]*64+19}%" stop-color="${nullcolor}" />
+				</LinearGradient>
+			</defs>
+			
+			<text font-family="Arial" y="30">
+				<title></title>
+				<tspan id="f" fill="url(#F)">F</tspan>  
+				<tspan id="a" fill="url(#A)">A</tspan>
+				<tspan id="i" fill="url(#I)">I</tspan>
+				<tspan id="r" fill="url(#R)">R</tspan>
+			</text>
+            <style>
+        
+            *{
+                font-family:"Arial"
+            }
+            #tooltip {
+                color: black;
+                background: white;
+                padding: 5px;
+                opacity:0.9;
+                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                
+            }
+			</style>
+			`
+
+			
+			function showTooltip(evt, text) {
+				
+				switch (evt.target.getAttribute("id")) {
+					case "f":
+						text = findable;
+						break;
+					case "a":
+						text = accessible;
+						break;
+					case "i":
+						text = interoperable;
+						break;
+					case "r":
+						text = reusable;
+						break;
+					default:
+						break;
+				}
+				const tooltip = shadow.getElementById("tooltip");
+				tooltip.style.display = "block";
+				tooltip.innerHTML = text;
+				tooltip.style.left = evt.pageX + 10 + 'px';
+				tooltip.style.top = evt.pageY + 10 + 'px';
+				
+			}
+			  
+			function hideTooltip() {
+				const tooltip = shadow.getElementById("tooltip");
+				tooltip.style.display = "none";
+			}
+			const shadow = this.attachShadow({ mode: 'open' });
+			
+			//append tooltip svg to shadow
+			shadow.appendChild(widgetTooltip);
+
+			//append fair metrics svg to shadow
+			shadow.appendChild(widgetContainer);
+			
+		}
+	}
+
+	get metrics() {
+		return this.getAttribute('data-fair-metrics') || '[0,0,0,0]';
+	}
+
+	get width() {
+		return this.getAttribute('width') || '100%';
+	}
+}
+
+customElements.define('fair-metrics', FairMetrics);
